@@ -1,0 +1,125 @@
+:root {
+	--color-white:#ffffff;
+	--color-black:#000000;
+	--color-highlight:#fff8b7;
+	--color-paper:#f1ebeb;
+	--color-border:#ddada3;
+
+	--color-gray-light-0:#f0f0f0;
+	--color-gray-light-1:#c3c3c3;
+	--color-gray-light-2:#b0b0b0;
+	--color-gray-light-3:#484848;
+	--color-gray-dark-0:#262626;
+	--color-gray-dark-1:#5e5e5e;
+	--color-gray-dark-2:#c3c3c3;
+	--color-gray-dark-3:#c3c3c3;
+
+	--color-olive-light-0:#eef1ea;
+	--color-olive-light-1:#b8c9a9;
+	--color-olive-light-2:#9eb986;
+	--color-olive-light-3:#30560a;
+	--color-olive-dark-0:#20281e;
+	--color-olive-dark-1:#3a4633;
+	--color-olive-dark-2:#55624f;
+	--color-olive-dark-3:#a5b29a;
+
+	--color-teal-light-0: #f4fafa;
+	--color-teal-light-1: #d0e8e6;
+	--color-teal-light-2: #a7d1cd;
+	--color-teal-light-3: #66a69e;
+	--color-teal-dark-0: #1a2a29;
+	--color-teal-dark-1: #2b403f;
+	--color-teal-dark-2: #3e5756;
+	--color-teal-dark-3: #84a7a5;
+
+	--color-red-light:#e25044;
+	--color-red:#a82f1e;
+
+	--font:'JetBrains Mono', monospace;
+	
+	--surface-button-delete:rgb(226 80 68 / 50%);
+	--surface-button-delete--hover:rgb(168 47 30 / 50%);
+	--border-invalid:rgb(226 80 68 / 50%);
+
+	--color-primary-0:var(--color-teal-light-0);
+	--color-primary-1:var(--color-teal-light-1);
+	--color-primary-2:var(--color-teal-light-2);
+	--color-primary-3:var(--color-teal-light-3);
+	--color-primary-dark-0:var(--color-teal-dark-0);
+	--color-primary-dark-1:var(--color-teal-dark-1);
+	--color-primary-dark-2:var(--color-teal-dark-2);
+	--color-primary-dark-3:var(--color-teal-dark-3);
+}
+
+.theme--olive {
+	--color-primary-0:var(--color-olive-light-0);
+	--color-primary-1:var(--color-olive-light-1);
+	--color-primary-2:var(--color-olive-light-2);
+	--color-primary-3:var(--color-olive-light-3);
+	--color-primary-form:#b8c9a940;
+	--color-primary-dark-0:var(--color-olive-dark-0);
+	--color-primary-dark-1:var(--color-olive-dark-1);
+	--color-primary-dark-2:var(--color-olive-dark-2);
+	--color-primary-dark-3:var(--color-olive-dark-3);
+	--color-primary-dark-form:#3a463340;
+}
+
+.theme--teal {
+	--color-primary-0:var(--color-teal-light-0);
+	--color-primary-1:var(--color-teal-light-1);
+	--color-primary-2:var(--color-teal-light-2);
+	--color-primary-3:var(--color-teal-light-3);
+	--color-primary-form:#d0e8e640;
+	--color-primary-dark-0:var(--color-teal-dark-0);
+	--color-primary-dark-1:var(--color-teal-dark-1);
+	--color-primary-dark-2:var(--color-teal-dark-2);
+	--color-primary-dark-3:var(--color-teal-dark-3);
+	--color-primary-dark-form:#2b403f40;
+}
+
+.theme--gray {
+	--color-primary-0:var(--color-gray-light-0);
+	--color-primary-1:var(--color-gray-light-1);
+	--color-primary-2:var(--color-gray-light-2);
+	--color-primary-3:var(--color-gray-light-3);
+	--color-primary-form:#c3c3c340;
+	--color-primary-dark-0:var(--color-gray-dark-0);
+	--color-primary-dark-1:var(--color-gray-dark-1);
+	--color-primary-dark-2:var(--color-gray-dark-2);
+	--color-primary-dark-3:var(--color-gray-dark-3);
+	--color-primary-dark-form:#c3c3c340;
+}
+
+.theme--light {
+	--surface-background:var(--color-primary-0);
+	--surface-footer:var(--color-primary-1);
+	--surface-scrollbar:var(--color-primary-1);
+	--surface-button:var(--color-primary-2);
+	--surface-button--hover:var(--color-primary-3);
+	--surface-input:var(--color-white);
+	--surface-form:var(--color-primary-form);
+	--border-primary:var(--color-primary-1);
+	--text-primary:var(--color-black);
+	--text-invert:var(--color-white);
+	--text-link:var(--color-primary-3);
+	--text-icon:var(--color-primary-2);
+	--text-input:var(--color-black);
+	--text-footer:var(--color-primary-3);
+}
+
+.theme--dark {
+	--surface-background:var(--color-primary-dark-0);
+	--surface-footer:var(--color-primary-dark-1);
+	--surface-scrollbar:var(--color-primary-dark-1);
+	--surface-button:var(--color-primary-dark-2);
+	--surface-button--hover:var(--color-primary-dark-3);
+	--surface-input:var(--color-black);
+	--surface-form:var(--color-primary-dark-form);
+	--border-primary:var(--color-primary-dark-1);
+	--text-primary:var(--color-white);
+	--text-invert:var(--color-black);
+	--text-link:var(--color-primary-dark-3);
+	--text-icon:var(--color-primary-dark-2);
+	--text-input:var(--color-white);
+	--text-footer:var(--color-primary-dark-3);
+}

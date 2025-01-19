@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Memokoi</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="styles/root.css">
+		<link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body class="theme theme--teal theme--light">
+	<div class="mk-container">
+		<header class="mk-header">
+			<h1>Memokoi</h1>
+		</header>
+		<main class="mk-body">
+			<div class="mk-actions">
+				<button id="changeTheme" class="mk-button">
+					<i class="fas fa-moon"></i>
+				</button>
+				<button id="changeToTeal" class="mk-button" style="display:none;">
+					<span class="mk-swatch mk-swatch--teal"></span>
+				</button>
+				<button id="changeToOlive" class="mk-button">
+					<span class="mk-swatch mk-swatch--olive"></span>
+				</button>
+				<button id="changeToGray" class="mk-button" style="display:none;">
+					<span class="mk-swatch mk-swatch--gray"></span>
+				</button>
+				<button id="quickGrab" class="mk-button">
+					<i class="fas fa-bookmark"></i>
+					<span>Quick add!</span>
+				</button>
+				<button id="openForm" class="mk-button">Add site</button>
+			</div>
+			<div id="addForm" class="mk-form">
+				<div id="formMessage" class="mk-form__message"></div>
+				<div class="mk-form__field">
+					<label for="siteName" class="mk-form__label">Name<span class="mk-important">*</span></label>
+					<input type="text" id="siteName" class="mk-input" name="siteName" placeholder="e.g., Lorem Ipsum">
+					<span class="mk-form__help">This can be the site's name or a name you give it to help with remembering.</span>
+				</div>
+				<div class="mk-form__field">
+					<label for="siteURL" class="mk-form__label">URL<span class="mk-important">*</span></label>
+					<input type="text" id="siteURL" class="mk-input" name="siteURL" placeholder="e.g., lipsum.com">
+					<span class="mk-form__help">The domain must be part of the URL. This only searches for active tabs that include this entire URL string!</span>
+				</div>
+				<div class="mk-form__field">
+					<label for="siteDesc" class="mk-form__label">Description</label>
+					<textarea id="siteDesc" class="mk-input" name="siteDesc" placeholder="e.g., Dummy text generator"></textarea>
+					<span class="mk-form__help">Provide more details on what this site does - keywords are fine, too. This will help with searching for the site next time if you forget it!</span>
+				</div>
+				<div class="mk-form__field">
+					<label for="siteTags" class="mk-form__label">Tags</label>
+					<textarea id="siteTags" class="mk-input" name="siteTags" placeholder="e.g., lipsum, dummy, generator, placeholder"></textarea>
+					<span class="mk-form__help">You can assign custom tags to the site (best used to categorize). Separate each tag with a comma.</span>
+				</div>
+				<div class="mk-actions mk-actions--form">
+					<button id="addBtn" class="mk-button">Add</button>
+					<button id="cancelBtn" class="mk-button">Cancel</button>
+				</div>
+			</div>
+			<section class="mk-section">
+				<input type="search" id="searchInput" class="mk-input mk-input--search" placeholder="Quick search..." />
+				<div id="siteList" class="mk-glossary"></div>
+				<footer class="footer"></footer>
+			</section>
+		</main>
+		<footer class="mk-footer">
+			<div class="mk-title">
+				<img src="SVG/koi-with-lilypads.svg" />
+				<h1>Memokoi</h1>
+			</div>
+			<p class="mk-tagline">A resource pond for one koi memory.</p>
+			<div class="mk-footnote">© 2025 YiJio</div>
+		</footer>
+	</div>
+	<script src="helpers.js"></script>
+	<script src="popup.js"></script>
+</body>
+
+</html>
