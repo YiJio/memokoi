@@ -2,6 +2,7 @@
 const changeThemeButton = document.getElementById('changeTheme');
 const changeToTealButton = document.getElementById('changeToTeal');
 const changeToOliveButton = document.getElementById('changeToOlive');
+const changeToSalmonButton = document.getElementById('changeToSalmon');
 const changeToGrayButton = document.getElementById('changeToGray');
 const openFormButton = document.getElementById('openForm');
 const quickGrabButton = document.getElementById('quickGrab');
@@ -28,29 +29,32 @@ let sites = [];
 
 // function to apply the theme
 function applyTheme(theme) {
+	document.body.classList.remove('theme--light', 'theme--dark');
 	changeThemeButton.innerHTML = theme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-	if(theme === 'light') { document.body.classList.replace('theme--light', 'theme--dark'); }
-	else { document.body.classList.replace('theme--dark', 'theme--light'); }
+	if(theme === 'light') { document.body.classList.add('theme--dark'); }
+	else { document.body.classList.add('theme--light'); }
 	chrome.storage.sync.set({ theme: theme });
 }
 
 // function to apply the color theme
 function applyColor(color) {
+	document.body.classList.remove('theme--teal', 'theme--olive', 'theme--salmon', 'theme--gray');
 	if(color === 'teal') {
-		document.body.classList.replace('theme--gray', 'theme--teal');
+		document.body.classList.add('theme--teal');
 		changeToTealButton.style.display = 'none';
 		changeToOliveButton.style.display = 'flex';
-		changeToGrayButton.style.display = 'none';
 	} else if(color === 'olive') {
-		document.body.classList.replace('theme--teal', 'theme--olive');
-		changeToTealButton.style.display = 'none';
+		document.body.classList.add('theme--olive');
 		changeToOliveButton.style.display = 'none';
+		changeToSalmonButton.style.display = 'flex';
+	} else if(color === 'salmon') {
+		document.body.classList.add('theme--salmon');
+		changeToSalmonButton.style.display = 'none';
 		changeToGrayButton.style.display = 'flex';
 	} else {
-		document.body.classList.replace('theme--olive', 'theme--gray');
-		changeToTealButton.style.display = 'flex';
-		changeToOliveButton.style.display = 'none';
+		document.body.classList.add('theme--gray');
 		changeToGrayButton.style.display = 'none';
+		changeToTealButton.style.display = 'flex';
 	}
 	chrome.storage.sync.set({ color: color });
 }
@@ -67,7 +71,6 @@ function updateCounts() {
 					//return tabUrl.href.includes(siteUrl.href) || tabUrl.href === siteUrl.href;
 					const url = new URL(tab.url);
 					const domain = url.hostname;
-					if(tab.url.includes(site.url)) {console.log('domain:',domain, ',taburl:', tab.url, ',siteurl:',site.url);}
 					return tab.url.includes(site.url) || tab.url === site.url || domain.endsWith(site.url) || domain === site.url;
 				} catch (error) {
 					return false;
@@ -145,6 +148,15 @@ function renderList() {
 		groupedSites[header].forEach(site => siteListElement.appendChild(renderItem(site, searchTerm)));
 		siteList.appendChild(siteListElement);
 	}
+	const maxLinks = 100;
+	const percentage = Math.min(sites.length / maxLinks * 100, 100);
+	const status = document.querySelector('.mk-status');
+	const statusProgress = document.querySelector('.mk-status__progress');
+	const statusCount = document.querySelector('.mk-status__count');
+	statusProgress.style.width = percentage + '%';
+	statusCount.innerHTML = `koi memory: ${sites.length} sites`;
+	if(sites.length > maxLinks) { status.classList.add('mk-status__progress--red'); }
+	else { status.classList.remove('mk-status__progress--red'); }
 }
 
 // function to reset the form
@@ -212,6 +224,9 @@ changeToTealButton.addEventListener('click', () => {
 });
 changeToOliveButton.addEventListener('click', () => {
 	applyColor('olive');
+});
+changeToSalmonButton.addEventListener('click', () => {
+	applyColor('salmon');
 });
 changeToGrayButton.addEventListener('click', () => {
 	applyColor('gray');
@@ -303,10 +318,12 @@ function saveSites() {
 }
 // load saved theme on popup load
 chrome.storage.sync.get(['theme'], function (result) {
+	console.log('theme loaded')
 	const savedTheme = result.theme || 'light';
 	applyTheme(savedTheme);
 });
 chrome.storage.sync.get(['color'], function (result) {
+	console.log('color loaded')
 	const savedColor = result.color || 'teal';
 	applyColor(savedColor);
 });
