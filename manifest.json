@@ -1,7 +1,7 @@
 {
 	"name": "Memokoi",
 	"description": "This is a resource pond for one koi memory.",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"manifest_version": 3,
 	"author": "Yi Jiang",
 	"permissions": [

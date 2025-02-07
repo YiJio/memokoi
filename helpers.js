@@ -51,3 +51,38 @@ function getHighlightedText(text, highlight) {
 	const parts = text.split(regex).map((part, index) => part.toLowerCase() === highlight.toLowerCase() ? `<span class='mk-highlight'>${part}</span>` : part);
 	return parts.join('');
 }
+
+// create tags dropdown
+function createTagsDropdown(allTags, selected = []) {
+	console.log(allTags);
+	const dropdown = document.createElement('select');
+	dropdown.classList = 'mk-dropdown'; dropdown.multiple = 'multiple';
+	allTags.forEach(tag => {
+		const option = document.createElement('option');
+		option.value = tag;
+		option.text = tag;
+		option.selected = selected.includes(tag);
+		dropdown.appendChild(option);
+	});
+	return dropdown;
+}
+
+// update tags dropdown
+function updateTagsDropdown(allTags, selected, dropdown) {
+	dropdown.innerHTML = '';
+	allTags.forEach(tag => {
+		const isSelected = selected.includes(tag);
+		const option = document.createElement('option');
+		option.value = tag;
+		option.text = tag;
+		option.selected = selected.includes(tag);
+		dropdown.appendChild(option);
+	});
+}
+
+// get selected tags from selection
+function getSelectedTags(selection) {
+	console.log(selection);
+	//if(!selection) return [];
+	return Array.from(selection.querySelectorAll('option:checked')).map(tag => tag.textContent.trim());
+}

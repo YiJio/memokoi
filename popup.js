@@ -26,6 +26,7 @@ const siteList = document.getElementById('siteList');
 	{ name: "Stack Overflow", url: "stackoverflow.com", description: "Programming Q&A site", tags: [], count: 0 }
 ];*/
 let sites = [];
+let tags = [];
 
 // function to apply the theme
 function applyTheme(theme) {
@@ -87,7 +88,8 @@ function filterList(sites, searchTerm) {
 		const nameMatch = site.name.toLowerCase().includes(searchTerm);
 		const urlMatch = site.url.toLowerCase().includes(searchTerm);
 		const descriptionMatch = site.description && site.description.toLowerCase().includes(searchTerm);
-		return nameMatch || urlMatch || descriptionMatch;
+		const tagsMatch = site.tags?.findIndex(tag => tag.toLowerCase().includes(searchTerm));
+		return nameMatch || urlMatch || descriptionMatch || (tagsMatch !== -1);
 	});
 	filteredSites.sort((a, b) => {
 		const aKey = getSortKey(a.name);
@@ -102,6 +104,7 @@ function renderItem(site, searchTerm) {
 	const item = document.createElement('li'); item.className = 'mk-list__item';
 	const row = document.createElement('div'); row.className = 'mk-list__row';
 	const info = document.createElement('div'); info.className = 'mk-list__info';
+	const actions = document.createElement('div'); actions.className = 'mk-list__actions';
 	const name = document.createElement('div'); name.className = 'mk-list__name';
 	const link = document.createElement('a');
 	link.href = `https://${site.url}`;
@@ -110,23 +113,28 @@ function renderItem(site, searchTerm) {
 	const icon = document.createElement('i'); icon.classList = 'fas fa-external-link';
 	const count = document.createElement('span'); count.className = 'mk-list__count';
 	count.innerHTML = `(tabs in pond: <b class="mk-important">${site.count}</b>)`;
-	const button = document.createElement('button'); button.classList = 'mk-button mk-button--delete';
-	button.innerHTML = '<i class="fas fa-trash"></i>';
-	button.onclick = () => deleteSite(site.url);
+	const editButton = document.createElement('button'); editButton.classList = 'mk-button mk-button--edit';
+	editButton.innerHTML = '<i class="fas fa-pen"></i>';
+	editButton.onclick = () => renderEditSite(item, site);
+	const delButton = document.createElement('button'); delButton.classList = 'mk-button mk-button--delete';
+	delButton.innerHTML = '<i class="fas fa-trash"></i>';
+	delButton.onclick = () => deleteSite(site.url);
 	const desc = document.createElement('p'); desc.className = 'mk-list__desc';
 	desc.innerHTML = searchTerm ? getHighlightedText(site.description, searchTerm) : site.description;
 	const tags = document.createElement('div'); tags.className = 'mk-list__tags';
 	if(site.tags && site.tags.length !== 0 && site.tags[0] !== '') {
 		let tagsHtml = '';
-		site.tags.forEach(tag => tagsHtml += `<div class="mk-tag">${tag}</div>`);
+		site.tags.forEach(tag => tagsHtml += `<div class="mk-tag">${getHighlightedText(tag, searchTerm)}</div>`);
 		tags.innerHTML = tagsHtml;
 	}
 	name.appendChild(link);
 	name.appendChild(icon);
 	info.appendChild(name);
 	info.appendChild(count);
+	actions.appendChild(editButton);
+	actions.appendChild(delButton);
 	row.appendChild(info);
-	row.appendChild(button);
+	row.appendChild(actions);
 	item.appendChild(row);
 	item.appendChild(desc);
 	item.appendChild(tags);
@@ -175,10 +183,80 @@ function resetFields(mode) {
 	formMessage.innerHTML = '';
 }
 
+// function to edit a site
+function renderEditSite(element, site) {
+	const editForm = document.createElement('div'); editForm.classList = 'mk-form mk-form--edit';
+	const nameInput = document.createElement('input'); nameInput.classList = 'mk-input';
+	nameInput.type = 'text'; nameInput.value = site.name; nameInput.placeholder = 'Site name';
+	const urlInput = document.createElement('input'); urlInput.classList = 'mk-input';
+	urlInput.type = 'text'; urlInput.value = site.url; urlInput.placeholder = 'Site URL';
+	const descInput = document.createElement('textarea'); descInput.classList = 'mk-input';
+	descInput.value = site.description; descInput.placeholder = 'Site description';
+	const tagsBox = document.createElement('div'); tagsBox.classList = 'mk-tags';
+	const tagsInput = document.createElement('input'); tagsInput.classList = 'mk-input';
+	tagsInput.type = 'text'; tagsInput.placeholder = 'Add new tag';
+	tagsInput.onkeydown = (e) => {
+		if(e.key === 'Enter') addNewTag(tagsInput.value, tagsInput, tagsDropdown);
+	}
+	const tagsDropdown = createTagsDropdown(tags, site.tags);
+	const actions = document.createElement('div'); actions.classList = 'mk-actions mk-actions--form';
+	const saveButton = document.createElement('button'); saveButton.classList = 'mk-button';
+	saveButton.textContent = 'Save';
+	saveButton.onclick = () => saveEditedSite(site, nameInput.value, urlInput.value, descInput.value, getSelectedTags(tagsDropdown));
+	const cancelButton = document.createElement('button'); cancelButton.classList = 'mk-button';
+	cancelButton.textContent = 'Cancel';
+	cancelButton.onclick = () => cancelEditedSite(site);
+	actions.appendChild(saveButton);
+	actions.appendChild(cancelButton);
+	editForm.appendChild(actions);
+	editForm.appendChild(nameInput);
+	editForm.appendChild(urlInput);
+	editForm.appendChild(descInput);
+	tagsBox.appendChild(tagsInput);
+	tagsBox.appendChild(tagsDropdown);
+	editForm.appendChild(tagsBox);
+	element.replaceWith(editForm);
+	element = editForm;
+}
+
+function addNewTag(newTag, tagsInput, tagsDropdown) {
+	const trimmedTag = newTag.trim().toLowerCase();
+	if(trimmedTag) {
+		if(!tags.includes(trimmedTag)) {
+			tags.push(trimmedTag);
+		}
+		const selectedTags = getSelectedTags(tagsDropdown);
+		selectedTags.push(trimmedTag);
+		updateTagsDropdown(tags, selectedTags, tagsDropdown);
+		tagsInput.value = '';
+	}
+}
+
+function saveEditedSite(site, name, url, desc, tags) {
+	console.log(tags);
+	site.name = name;
+	site.url = url;
+	site.description = desc;
+	site.tags = tags;
+	saveSites();
+	updateCounts();
+}
+
+function cancelEditedSite(site) {
+	renderList();
+}
+
 // function to delete a site
 function deleteSite(url) {
 	const index = sites.findIndex(site => site.url === url);
 	if (index !== -1) {
+		const loading = document.getElementById('loading');
+		const gif = document.createElement('img');
+		gif.src = 'assets/gif.gif';
+		loading.appendChild(gif);
+		setTimeout(() => {
+			loading.removeChild(gif);
+		}, 1500);
 		sites.splice(index, 1);
 		saveSites();
 		updateCounts();
@@ -258,7 +336,8 @@ addSiteButton.addEventListener('click', () => {
 	const name = formInput1.value.trim();
 	const url = formInput2.value.trim();
 	const description = formInput3.value.trim();
-	const tags = formInput4.value.trim().replaceAll(' ','-').split(',-');
+	const tagsFinal = formInput4.value.trim().replaceAll(' ','-').split(',-');
+	console.log(tagsFinal);
 	if (name && url) {
 		console.log(sites.some(site => site.url === url))
 		if (sites.some(site => site.url === url)) {
@@ -267,7 +346,9 @@ addSiteButton.addEventListener('click', () => {
 		} else {
 			const url2 = !url.includes('http') ? `https://${url}` : url;
 			const parsedUrl = parseUrl(url2);
-			sites.push({ name, url: parsedUrl.url, description, tags, count: 0 });
+			sites.push({ name, url: parsedUrl.url, description, tags: tagsFinal, count: 0 });
+			tagsFinal.forEach(tag => tags.push(tag));
+			tags = tags.filter((t, index) => tags.indexOf(t) == index);
 			saveSites();
 			updateCounts();
 			resetFields('all');
@@ -311,11 +392,15 @@ chrome.storage.sync.get(['sites'], function (result) {
 });
 // function to save sites to chrome storage
 function saveSites() {
-	chrome.storage.sync.set({ sites: sites }, function () {
-		console.log('Sites saved!');
-		console.log(sites)
+	chrome.storage.sync.set({ sites: sites, tags: tags }, function () {
+		console.log('Sites and tags saved!');
+		console.log('sites',sites)
+		console.log('tags',tags)
 	});
 }
+chrome.storage.sync.get(['tags'], function(result) {
+	if(result.tags) { tags = result.tags; }
+});
 // load saved theme on popup load
 chrome.storage.sync.get(['theme'], function (result) {
 	console.log('theme loaded')

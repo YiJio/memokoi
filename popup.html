@@ -50,27 +50,22 @@
 				<div class="mk-form__field">
 					<label for="siteName" class="mk-form__label">Name<span class="mk-important">*</span></label>
 					<input type="text" id="siteName" class="mk-input" name="siteName" placeholder="e.g., Lorem Ipsum">
-					<span class="mk-form__help">This can be the site's name, a specific article's name, or a name you give it to
-						help with memory.</span>
+					<span class="mk-form__help">This can be the site's name, a specific article's name, or a name you give it to help with memory.</span>
 				</div>
 				<div class="mk-form__field">
 					<label for="siteURL" class="mk-form__label">URL<span class="mk-important">*</span></label>
 					<input type="text" id="siteURL" class="mk-input" name="siteURL" placeholder="e.g., lipsum.com">
-					<span class="mk-form__help">The domain must be part of the URL. This only searches for active tabs that
-						include this entire URL string!</span>
+					<span class="mk-form__help">The domain must be part of the URL. This only searches for active tabs that include this entire URL string!</span>
 				</div>
 				<div class="mk-form__field">
 					<label for="siteDesc" class="mk-form__label">Description</label>
 					<textarea id="siteDesc" class="mk-input" name="siteDesc" placeholder="e.g., Dummy text generator"></textarea>
-					<span class="mk-form__help">Provide more details on what this article/site does - keywords are fine, too. This
-						will better help you search for the site next time if you forget!</span>
+					<span class="mk-form__help">Provide more details on what this article/site does - keywords are fine, too. This will better help you search for the site next time if you forget!</span>
 				</div>
 				<div class="mk-form__field">
 					<label for="siteTags" class="mk-form__label">Tags</label>
-					<textarea id="siteTags" class="mk-input mk-input--tags" name="siteTags"
-						placeholder="e.g., lipsum, dummy, generator, placeholder"></textarea>
-					<span class="mk-form__help">You can assign custom tags to the article/site (make sure they actually help!).
-						Separate each tag with a comma.</span>
+					<textarea id="siteTags" class="mk-input mk-input--tags" name="siteTags" placeholder="e.g., lipsum, dummy, generator, placeholder"></textarea>
+					<span class="mk-form__help">You can assign custom tags to the article/site (make sure they actually help!). Separate each tag with a comma.</span>
 				</div>
 				<div class="mk-actions mk-actions--form">
 					<button id="addBtn" class="mk-button">Add</button>
@@ -80,7 +75,6 @@
 			<section class="mk-section">
 				<input type="search" id="searchInput" class="mk-input mk-input--search" placeholder="Quick search..." />
 				<div id="siteList" class="mk-glossary"></div>
-				<footer class="footer"></footer>
 			</section>
 		</main>
 		<footer class="mk-footer">
@@ -92,6 +86,7 @@
 			<div class="mk-footnote">© 2025 YiJio</div>
 		</footer>
 	</div>
+	<div id="loading" class="mk-floating"></div>
 	<script src="helpers.js"></script>
 	<script src="popup.js"></script>
 </body>
